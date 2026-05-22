@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import sanitizeMiddleware from "../middlewares/sanitize.js";
 import connectDB from "../config/db.js";
 import { authRouter } from "../routes/authRoutes.js";
 import { taskRouter } from "../routes/taskRoutes.js";
@@ -26,6 +27,9 @@ connectDB();
 
 // Middleware for parsing request body
 app.use(express.json());
+
+// Middleware for sanitizing incoming payload against no-sql injection
+app.use(sanitizeMiddleware);
 
 // Router for accessing auth routes
 app.use("/api/auth", authRouter);
